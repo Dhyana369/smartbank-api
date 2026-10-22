@@ -1,5 +1,6 @@
 package com.smartbank.smartbankapi;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +12,8 @@ import java.nio.file.Path;
 public class BankServiceConfig {
 
     @Bean
-    public BankService bankService() {
-        return new BankService(Path.of("/Users/dhyana/Documents/Project/SmartBank/data"));
+    public BankService bankService(
+            @Value("${smartbank.data-directory}") String dataDirectory) {
+        return new BankService(Path.of(dataDirectory));
     }
 }

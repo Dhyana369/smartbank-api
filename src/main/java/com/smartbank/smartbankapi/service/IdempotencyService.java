@@ -1,6 +1,7 @@
 
 package com.smartbank.smartbankapi.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,9 +14,12 @@ import java.util.List;
 @Service
 public class IdempotencyService {
 
-    private final Path file = Path.of(
-            "/Users/dhyana/Documents/Project/SmartBank/data/account_requests.csv"
-    );
+    private final Path file;
+
+    public IdempotencyService(
+            @Value("${smartbank.data-directory}") String dataDirectory) {
+        this.file = Path.of(dataDirectory, "account_requests.csv");
+    }
 
     public synchronized String findAccountNumber(
             String key, String customerId, BigDecimal initialDeposit) {
